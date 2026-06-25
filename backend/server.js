@@ -13,9 +13,7 @@ const app = express();
 connectDB();
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173"
-    ],
+    origin: "*", // Allows any frontend (Vercel + Localhost) to connect
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
@@ -31,6 +29,12 @@ app.use("/api/v1/income",incomeRoutes);
 app.use("/api/v1/expense", expenseRoutes);
 app.use("/api/v1/dashboard", dashboardRoutes);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+
+app.get("/", (req, res) => {
+  res.send("Expense Tracker Backend Server is Live!");
+});
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
